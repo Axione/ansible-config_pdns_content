@@ -10,7 +10,7 @@
     state: "{{ item.state | default('present') }}"
     pdns_host: "{{ pdns_content_api_host }}"
     pdns_port: "{{ pdns_content_api_port }}"
-    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
   with_items: "{{ pdns_content_create_zone }}"
   when:
@@ -27,7 +27,7 @@
     set_ptr: true
     pdns_host: "{{ pdns_content_api_host }}"
     pdns_port: "{{ pdns_content_api_port }}"
-    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
   with_items: "{{ pdns_content_records }}"
   when:
@@ -45,7 +45,7 @@
     ttl: "{{ item.ttl | default('86400') }}"
     pdns_host: "{{ pdns_content_api_host }}"
     pdns_port: "{{ pdns_content_api_port }}"
-    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
   with_items: "{{ pdns_content_records }}"
   when:
@@ -64,7 +64,7 @@
     ttl: "{{ item.ttl | default('86400') }}"
     pdns_host: "{{ pdns_content_api_host }}"
     pdns_port: "{{ pdns_content_api_port }}"
-    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
   with_items: "{{ pdns_content_records }}"
   when:
@@ -82,7 +82,7 @@
     ttl: "{{ item.ttl | default('86400') }}"
     pdns_host: "{{ pdns_content_api_host }}"
     pdns_port: "{{ pdns_content_api_port }}"
-    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
   with_items: "{{ pdns_content_records }}"
   when:
@@ -100,7 +100,7 @@
     ttl: "{{ item.ttl | default('86400') }}"
     pdns_host: "{{ pdns_content_api_host }}"
     pdns_port: "{{ pdns_content_api_port }}"
-    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
   with_items: "{{ pdns_content_records }}"
   when:
