@@ -1,0 +1,110 @@
+---
+#- name: install requierement package to use module
+#  apt:
+#    name: python-requests
+
+- name: "Create Zones"
+  powerdns_zone:
+    name: "{{ item.name | lower }}."
+    kind: "{{ item.kind | default('master') }}"
+    state: "{{ item.state | default('present') }}"
+    pdns_host: "{{ pdns_content_api_host }}"
+    pdns_port: "{{ pdns_content_api_port }}"
+    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_prot: "{{ pdns_content_api_proto }}"
+  with_items: "{{ pdns_content_create_zone }}"
+  when:
+    - pdns_content_create_zone is defined
+    - pdns_content_create_zone|length > 0
+
+- name: "Create A record"
+  powerdns_record:
+    name: "{{ item.name | lower }}."
+    zone: "{{ item.zone | default(pdns_content_default_domain) }}"
+    type: A
+    content: "{{ item.dest }}"
+    ttl: "{{ item.ttl | default('86400') }}"
+    set_ptr: true
+    pdns_host: "{{ pdns_content_api_host }}"
+    pdns_port: "{{ pdns_content_api_port }}"
+    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_prot: "{{ pdns_content_api_proto }}"
+  with_items: "{{ pdns_content_records }}"
+  when:
+    - pdns_content_records is defined
+    - pdns_content_records | length > 0
+    - item.type == 'A'
+#  notify: "reload zones"
+
+- name: "Create CNAME record"
+  powerdns_record:
+    name: "{{ item.name | lower }}."
+    zone: "{{ item.zone | default(pdns_content_default_domain) }}"
+    type: CNAME
+    content: "{{ item.dest }}."
+    ttl: "{{ item.ttl | default('86400') }}"
+    pdns_host: "{{ pdns_content_api_host }}"
+    pdns_port: "{{ pdns_content_api_port }}"
+    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_prot: "{{ pdns_content_api_proto }}"
+  with_items: "{{ pdns_content_records }}"
+  when:
+    - pdns_content_records is defined
+    - pdns_content_records | length > 0
+    - item.type == 'CNAME'
+#  notify: "reload zones"
+
+- name: "Create SRV record"
+  powerdns_record:
+    name: "{{ item.name | lower }}."
+    zone: "{{ item.zone | default(pdns_content_default_domain) }}"
+    type: SRV
+    exclusive: 'no'
+    content: "{{ item.dest }}."
+    ttl: "{{ item.ttl | default('86400') }}"
+    pdns_host: "{{ pdns_content_api_host }}"
+    pdns_port: "{{ pdns_content_api_port }}"
+    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_prot: "{{ pdns_content_api_proto }}"
+  with_items: "{{ pdns_content_records }}"
+  when:
+    - pdns_content_records is defined
+    - pdns_content_records | length > 0
+    - item.type == 'SRV'
+#  notify: "reload zones"
+
+- name: "Create TXT record"
+  powerdns_record:
+    name: "{{ item.name }}."
+    zone: "{{ item.zone | default(pdns_content_default_domain) }}"
+    type: TXT
+    content: "{{ item.dest }}."
+    ttl: "{{ item.ttl | default('86400') }}"
+    pdns_host: "{{ pdns_content_api_host }}"
+    pdns_port: "{{ pdns_content_api_port }}"
+    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_prot: "{{ pdns_content_api_proto }}"
+  with_items: "{{ pdns_content_records }}"
+  when:
+    - pdns_content_records is defined
+    - pdns_content_records | length > 0
+    - item.type == 'TXT'
+#  notify: "reload zones"
+
+- name: "Create PTR record"
+  powerdns_record:
+    name: "{{ item.name | lower }}."
+    zone: "{{ item.zone | default(pdns_content_default_domain) }}"
+    type: PTR
+    content: "{{ item.dest }}."
+    ttl: "{{ item.ttl | default('86400') }}"
+    pdns_host: "{{ pdns_content_api_host }}"
+    pdns_port: "{{ pdns_content_api_port }}"
+    pdns_content_api_key: "{{ pdns_content_api_key }}"
+    pdns_prot: "{{ pdns_content_api_proto }}"
+  with_items: "{{ pdns_content_records }}"
+  when:
+    - pdns_content_records is defined
+    - pdns_content_records | length > 0
+    - item.type == 'PTR'
+#  notify: "reload zones"
