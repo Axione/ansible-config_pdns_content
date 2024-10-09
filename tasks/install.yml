@@ -29,12 +29,12 @@
     pdns_port: "{{ pdns_content_api_port }}"
     pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
-  with_items: "{{ pdns_content_records }}"
+  with_items: '{{ pdns_content_records | selectattr("type", "equalto", "A") }}'
   when:
     - pdns_content_records is defined
     - pdns_content_records | length > 0
     - item.type == 'A'
-#  notify: "reload zones"
+#  notify: "Reload zones"
 
 - name: "Create CNAME record"
   powerdns_record:
@@ -47,12 +47,12 @@
     pdns_port: "{{ pdns_content_api_port }}"
     pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
-  with_items: "{{ pdns_content_records }}"
+  with_items: '{{ pdns_content_records | selectattr("type", "equalto", "CNAME") }}'
   when:
     - pdns_content_records is defined
     - pdns_content_records | length > 0
     - item.type == 'CNAME'
-#  notify: "reload zones"
+#  notify: "Reload zones"
 
 - name: "Create SRV record"
   powerdns_record:
@@ -66,12 +66,12 @@
     pdns_port: "{{ pdns_content_api_port }}"
     pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
-  with_items: "{{ pdns_content_records }}"
+  with_items: '{{ pdns_content_records | selectattr("type", "equalto", "SRV") }}'
   when:
     - pdns_content_records is defined
     - pdns_content_records | length > 0
     - item.type == 'SRV'
-#  notify: "reload zones"
+#  notify: "Reload zones"
 
 - name: "Create TXT record"
   powerdns_record:
@@ -84,12 +84,12 @@
     pdns_port: "{{ pdns_content_api_port }}"
     pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
-  with_items: "{{ pdns_content_records }}"
+  with_items: '{{ pdns_content_records | selectattr("type", "equalto", "TXT") }}'
   when:
     - pdns_content_records is defined
     - pdns_content_records | length > 0
     - item.type == 'TXT'
-#  notify: "reload zones"
+#  notify: "Reload zones"
 
 - name: "Create PTR record"
   powerdns_record:
@@ -102,9 +102,9 @@
     pdns_port: "{{ pdns_content_api_port }}"
     pdns_api_key: "{{ pdns_content_api_key }}"
     pdns_prot: "{{ pdns_content_api_proto }}"
-  with_items: "{{ pdns_content_records }}"
+  with_items: '{{ pdns_content_records | selectattr("type", "equalto", "PTR") }}'
   when:
     - pdns_content_records is defined
     - pdns_content_records | length > 0
     - item.type == 'PTR'
-#  notify: "reload zones"
+#  notify: "Reload zones"

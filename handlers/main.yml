@@ -1,5 +1,6 @@
 ---
-- name: "reload zones"
+- name: "Reload zones"
   ansible.builtin.command: "/usr/bin/rec_control reload-zones"
   delegate_to: "{{ item }}"
+  changed_when: false
   with_items: "{{ groups['pdns'] }}"
